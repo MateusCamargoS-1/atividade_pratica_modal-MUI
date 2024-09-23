@@ -30,7 +30,7 @@ Certifique-se de ter o **Node.js** instalado. Você pode baixá-lo em: [Node.js]
 
 ### 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seu-usuario/atividade_pratica_modal-MUI.git
+   git clone https://github.com/MateusCamargoS-1/atividade_pratica_modal-MUI.git
    ```
 ### 2. Navegue até o diretório do projeto:
 
