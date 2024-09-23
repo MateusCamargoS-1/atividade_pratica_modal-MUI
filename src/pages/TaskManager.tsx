@@ -13,9 +13,11 @@ const TaskManager = () => {
   const [tasks, setTasks] = useState<string[]>([]);
   const [editTaskIndex, setEditTaskIndex] = useState<number | null>(null);
   const [editTaskText, setEditTaskText] = useState<string>('');
-  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const userEmail = useSelector((state: RootState) => state.auth.userEmail);
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -28,20 +30,22 @@ const TaskManager = () => {
   }, [isAuthenticated, navigate]);
 
   useEffect(() => {
-    const storedTasks = localStorage.getItem('tasks');
-    if (storedTasks) {
-      const parsedTasks = JSON.parse(storedTasks);
-      if (Array.isArray(parsedTasks)) {
-        setTasks(parsedTasks);
+    if (isAuthenticated && userEmail) {
+      const storedTasks = localStorage.getItem(`tasks_${userEmail}`);
+      if (storedTasks) {
+        const parsedTasks = JSON.parse(storedTasks);
+        if (Array.isArray(parsedTasks)) {
+          setTasks(parsedTasks);
+        }
       }
     }
-  }, []);
+  }, [isAuthenticated, userEmail]);
 
   useEffect(() => {
-    if (tasks.length > 0) {
-      localStorage.setItem('tasks', JSON.stringify(tasks));
+    if (tasks.length > 0 && userEmail) {
+      localStorage.setItem(`tasks_${userEmail}`, JSON.stringify(tasks));
     }
-  }, [tasks]);
+  }, [tasks, userEmail]);
 
   const handleAddTask = (newTask: string) => {
     if (!isAuthenticated) {

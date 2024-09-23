@@ -12,13 +12,13 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
   const handleLogin = () => {
     const storedUsers = JSON.parse(localStorage.getItem("users") || "[]");
     const user = storedUsers.find(
       (user: { email: string; password: string }) =>
         user.email === email && user.password === password
     );
+
     if (!email || !password) {
       setSnackbarMessage("Preencha todos os campos!");
       setOpenSnackbar(true);
@@ -31,7 +31,7 @@ const Login = () => {
       return;
     }
 
-    dispatch(login());
+    dispatch(login(email));
     navigate("/");
   };
 
